@@ -180,18 +180,17 @@
   </div>
 </template>
 <script>
+  var SPEED_LEFT = 2;
+  var SPEED_RIGHT = 5;
+  var MULTIPLIER_HEIGHT = 1.337;
   var fireballSize = 22;
   var wizardSpeed = 3;
   var wizardWidth = 70;
   var getFireballSpeed = function (isMovingLeft) {
-    if (isMovingLeft) {
-      return 2;
-    }
-
-    return 5;
+    return isMovingLeft ? SPEED_LEFT : SPEED_RIGHT;
   };
   var getWizardHeight = function () {
-    return 1.337 * wizardWidth;
+    return MULTIPLIER_HEIGHT * wizardWidth;
   };
   var getWizardX = function (fieldWidth) {
     return (fieldWidth - wizardWidth) / 2;
