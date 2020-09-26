@@ -1,4 +1,4 @@
-`use strict`;
+'use strict';
 
 const FIRST_NAMES = [`Иван`, `Хуан Себастьян`, `Мария`, `Кристоф`, `Виктор`, `Юлия`, `Люпита`, `Вашингтон`];
 const LAST_NAMES = [`да Марья`, `Верон`, `Мирабелла`, `Вальц`, `Онопко`, `Топольницкая`, `Нионго`, `Ирвинг`];
@@ -36,7 +36,7 @@ for (let i = 0; i < MAX_WIZARDS; i++) {
 
 const fragment = document.createDocumentFragment();
 
-wizards.forEach(element => fragment.appendChild(renderWizard(element)));
+wizards.forEach((element) => fragment.appendChild(renderWizard(element)));
 
 wizardsListElement.appendChild(fragment);
 
