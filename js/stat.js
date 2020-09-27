@@ -35,14 +35,14 @@ const getRandomNumber = function (min, max) {
 };
 
 window.renderStatistics = function (ctx, players, times) {
-  renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)');
-  renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
+  renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, `rgba(0, 0, 0, 0.7)`);
+  renderCloud(ctx, CLOUD_X, CLOUD_Y, `#fff`);
 
-  ctx.fillStyle = '#000';
-  ctx.font = '16px PT Mono';
-  ctx.textBaseline = 'hanging';
-  ctx.fillText('Ура вы победили!', CLOUD_X + GAP, CLOUD_Y + FONT_GAP);
-  ctx.fillText('Список результатов:', CLOUD_X + GAP, CLOUD_Y + FONT_GAP + FONT_GAP);
+  ctx.fillStyle = `#000`;
+  ctx.font = `16px PT Mono`;
+  ctx.textBaseline = `hanging`;
+  ctx.fillText(`Ура вы победили!`, CLOUD_X + GAP, CLOUD_Y + FONT_GAP);
+  ctx.fillText(`Список результатов:`, CLOUD_X + GAP, CLOUD_Y + FONT_GAP + FONT_GAP);
 
   const maxTime = getMaxElements(times);
 
@@ -52,11 +52,11 @@ window.renderStatistics = function (ctx, players, times) {
         CLOUD_X + GAP + (BAR_WIDTH + BAR_GAP) * i,
         STAT_START_Y + BAR_HEIGHT - (BAR_HEIGHT * times[i] / maxTime)
     );
-    if (players[i] === 'Вы') {
-      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
+    if (players[i] === `Вы`) {
+      ctx.fillStyle = `rgba(255, 0, 0, 1)`;
     } else {
       let random = getRandomNumber(1, 100);
-      ctx.fillStyle = 'hsl(240, ' + random + '%, 50%)';
+      ctx.fillStyle = `hsl(240, ` + random + `%, 50%)`;
     }
     ctx.fillRect(
         CLOUD_X + GAP + (BAR_WIDTH + BAR_GAP) * i,
@@ -64,7 +64,7 @@ window.renderStatistics = function (ctx, players, times) {
         BAR_WIDTH,
         BAR_HEIGHT * times[i] / maxTime
     );
-    ctx.fillStyle = '#000';
+    ctx.fillStyle = `#000`;
     ctx.fillText(
         players[i],
         CLOUD_X + GAP + (BAR_WIDTH + BAR_GAP) * i,
