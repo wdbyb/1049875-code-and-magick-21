@@ -24,7 +24,7 @@ const renderWizard = function (wizard) {
   return wizardElement;
 };
 
-setupElement.classList.remove(`hidden`);
+// setupElement.classList.remove(`hidden`);
 
 for (let i = 0; i < MAX_WIZARDS; i++) {
   wizards.push({
@@ -41,3 +41,49 @@ wizards.forEach((element) => fragment.appendChild(renderWizard(element)));
 wizardsListElement.appendChild(fragment);
 
 document.querySelector(`.setup-similar`).classList.remove(`hidden`);
+
+const setupOpenElement = document.querySelector(`.setup-open`);
+const setupCloseElement = document.querySelector(`.setup-close`);
+
+setupOpenElement.addEventListener(`click`, function () {
+  openPopup();
+});
+
+setupOpenElement.addEventListener(`keydown`, function (evt) {
+  if (evt.key === `Enter`) {
+    openPopup();
+  }
+});
+
+setupCloseElement.addEventListener(`click`, function () {
+  closePopup();
+});
+
+setupCloseElement.addEventListener(`keydown`, function (evt) {
+  if (evt.key === `Enter`) {
+    closePopup();
+  }
+});
+
+const openPopup = function () {
+  setupElement.classList.remove(`hidden`);
+
+  document.addEventListener(`keydown`, onPopupEscPress);
+};
+
+const closePopup = function () {
+  setupElement.classList.add(`hidden`);
+
+  document.removeEventListener(`keydown`, onPopupEscPress);
+};
+
+const onPopupEscPress = function (evt) {
+  if (document.activeElement !== setupUserNameElement) {
+    if (evt.key === `Escape`) {
+      evt.preventDefault();
+      setupElement.classList.add(`hidden`);
+    }
+  }
+};
+
+const setupUserNameElement = setupElement.querySelector(`.setup-user-name`);
