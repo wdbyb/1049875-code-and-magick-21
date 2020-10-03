@@ -10,10 +10,10 @@ const setupElement = document.querySelector(`.setup`);
 const wizardTemplateElement = document.querySelector(`#similar-wizard-template`).content.querySelector(`div`);
 const wizardsListElement = setupElement.querySelector(`.setup-similar-list`);
 const setupUserNameElement = setupElement.querySelector(`.setup-user-name`);
-const setupWizard = document.querySelector(`.setup-wizard`);
-const wizardCoat = setupWizard.querySelector(`.wizard-coat`);
-const wizardEyes = setupWizard.querySelector(`.wizard-eyes`);
-const setupFireball = document.querySelector(`.setup-fireball-wrap`);
+const setupWizardElement = document.querySelector(`.setup-wizard`);
+const wizardCoatElement = setupWizardElement.querySelector(`.wizard-coat`);
+const wizardEyesElement = setupWizardElement.querySelector(`.wizard-eyes`);
+const setupFireballElement = document.querySelector(`.setup-fireball-wrap`);
 const fireballColorElement = document.querySelector(`input[name="fireball-color"]`);
 const coatColorElement = document.querySelector(`input[name="coat-color"]`);
 const eyesColorElement = document.querySelector(`input[name="eyes-color"]`);
@@ -22,13 +22,15 @@ const setupCloseElement = document.querySelector(`.setup-close`);
 const wizards = [];
 
 function onWizardCoatClick() {
-  getNextFillColor(wizardCoat, coatColorElement, COAT_COLORS);
+  getNextFillColor(wizardCoatElement, coatColorElement, COAT_COLORS);
 }
+
 function onWizardEyesClick() {
-  getNextFillColor(wizardEyes, eyesColorElement, EYES_COLORS);
+  getNextFillColor(wizardEyesElement, eyesColorElement, EYES_COLORS);
 }
+
 function onFireballClick() {
-  getNextBackgroundColor(setupFireball, fireballColorElement, FIREBALL_COLORS);
+  getNextBackgroundColor(setupFireballElement, fireballColorElement, FIREBALL_COLORS);
 }
 
 function getRandom(max) {
@@ -72,11 +74,11 @@ function getNextElementFromArray(arr, currentElement) {
 function openPopup() {
   setupElement.classList.remove(`hidden`);
 
-  wizardCoat.addEventListener(`click`, onWizardCoatClick);
+  wizardCoatElement.addEventListener(`click`, onWizardCoatClick);
 
-  wizardEyes.addEventListener(`click`, onWizardEyesClick);
+  wizardEyesElement.addEventListener(`click`, onWizardEyesClick);
 
-  setupFireball.addEventListener(`click`, onFireballClick);
+  setupFireballElement.addEventListener(`click`, onFireballClick);
 
   document.addEventListener(`keydown`, onPopupEscPress);
 }
@@ -84,21 +86,19 @@ function openPopup() {
 function closePopup() {
   setupElement.classList.add(`hidden`);
 
-  wizardCoat.removeEventListener(`click`, onWizardCoatClick);
+  wizardCoatElement.removeEventListener(`click`, onWizardCoatClick);
 
-  wizardEyes.removeEventListener(`click`, onWizardEyesClick);
+  wizardEyesElement.removeEventListener(`click`, onWizardEyesClick);
 
-  setupFireball.removeEventListener(`click`, onFireballClick);
+  setupFireballElement.removeEventListener(`click`, onFireballClick);
 
   document.removeEventListener(`keydown`, onPopupEscPress);
 }
 
 function onPopupEscPress(evt) {
-  if (document.activeElement !== setupUserNameElement) {
-    if (evt.key === `Escape`) {
-      evt.preventDefault();
-      setupElement.classList.add(`hidden`);
-    }
+  if (document.activeElement !== setupUserNameElement && evt.key === `Escape`) {
+    evt.preventDefault();
+    setupElement.classList.add(`hidden`);
   }
 }
 
