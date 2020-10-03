@@ -4,17 +4,38 @@ const FIRST_NAMES = [`Иван`, `Хуан Себастьян`, `Мария`, `�
 const LAST_NAMES = [`да Марья`, `Верон`, `Мирабелла`, `Вальц`, `Онопко`, `Топольницкая`, `Нионго`, `Ирвинг`];
 const COAT_COLORS = [`rgb(101, 137, 164)`, `rgb(241, 43, 107)`, `rgb(146, 100, 161)`, `rgb(56, 159, 117)`, `rgb(215, 210, 55)`, `rgb(0, 0, 0)`];
 const EYES_COLORS = [`black`, `red`, `blue`, `yellow`, `green`];
+const FIREBALL_COLORS = [`#ee4830`, `#30a8ee`, `#5ce6c0`, `#e848d5`, `#e6e848`];
 const MAX_WIZARDS = 4;
 const setupElement = document.querySelector(`.setup`);
 const wizardTemplateElement = document.querySelector(`#similar-wizard-template`).content.querySelector(`div`);
 const wizardsListElement = setupElement.querySelector(`.setup-similar-list`);
+const setupUserNameElement = setupElement.querySelector(`.setup-user-name`);
+const setupWizard = document.querySelector(`.setup-wizard`);
+const wizardCoat = setupWizard.querySelector(`.wizard-coat`);
+const wizardEyes = setupWizard.querySelector(`.wizard-eyes`);
+const setupFireball = document.querySelector(`.setup-fireball-wrap`);
+const fireballColorElement = document.querySelector(`input[name="fireball-color"]`);
+const coatColorElement = document.querySelector(`input[name="coat-color"]`);
+const eyesColorElement = document.querySelector(`input[name="eyes-color"]`);
+const setupOpenElement = document.querySelector(`.setup-open`);
+const setupCloseElement = document.querySelector(`.setup-close`);
 const wizards = [];
 
-const getRandom = function (max) {
-  return Math.floor(Math.random() * Math.floor(max));
-};
+function onWizardCoatClick() {
+  getNextFillColor(wizardCoat, coatColorElement, COAT_COLORS);
+}
+function onWizardEyesClick() {
+  getNextFillColor(wizardEyes, eyesColorElement, EYES_COLORS);
+}
+function onFireballClick() {
+  getNextBackgroundColor(setupFireball, fireballColorElement, FIREBALL_COLORS);
+}
 
-const renderWizard = function (wizard) {
+function getRandom(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+function renderWizard(wizard) {
   const wizardElement = wizardTemplateElement.cloneNode(true);
 
   wizardElement.querySelector(`.setup-similar-label`).textContent = wizard.name;
@@ -22,9 +43,64 @@ const renderWizard = function (wizard) {
   wizardElement.querySelector(`.wizard-eyes`).style.fill = wizard.eyesColor;
 
   return wizardElement;
-};
+}
 
-// setupElement.classList.remove(`hidden`);
+function getNextFillColor(element, input, colors) {
+  const currentAttribute = input.getAttribute(`value`);
+  const nextAttribute = getNextElementFromArray(colors, currentAttribute);
+  element.style.fill = nextAttribute;
+  input.setAttribute(`value`, nextAttribute);
+}
+
+function getNextBackgroundColor(element, input, colors) {
+  const currentAttribute = input.getAttribute(`value`);
+  const nextAttribute = getNextElementFromArray(colors, currentAttribute);
+  element.style.backgroundColor = nextAttribute;
+  input.setAttribute(`value`, nextAttribute);
+}
+
+function getNextElementFromArray(arr, currentElement) {
+  const currentIndex = arr.findIndex(function (item) {
+    return item === currentElement;
+  });
+  if (currentIndex + 1 >= arr.length) {
+    return arr[0];
+  }
+  return arr[currentIndex + 1];
+}
+
+function openPopup() {
+  setupElement.classList.remove(`hidden`);
+
+  wizardCoat.addEventListener(`click`, onWizardCoatClick);
+
+  wizardEyes.addEventListener(`click`, onWizardEyesClick);
+
+  setupFireball.addEventListener(`click`, onFireballClick);
+
+  document.addEventListener(`keydown`, onPopupEscPress);
+}
+
+function closePopup() {
+  setupElement.classList.add(`hidden`);
+
+  wizardCoat.removeEventListener(`click`, onWizardCoatClick);
+
+  wizardEyes.removeEventListener(`click`, onWizardEyesClick);
+
+  setupFireball.removeEventListener(`click`, onFireballClick);
+
+  document.removeEventListener(`keydown`, onPopupEscPress);
+}
+
+function onPopupEscPress(evt) {
+  if (document.activeElement !== setupUserNameElement) {
+    if (evt.key === `Escape`) {
+      evt.preventDefault();
+      setupElement.classList.add(`hidden`);
+    }
+  }
+}
 
 for (let i = 0; i < MAX_WIZARDS; i++) {
   wizards.push({
@@ -41,9 +117,6 @@ wizards.forEach((element) => fragment.appendChild(renderWizard(element)));
 wizardsListElement.appendChild(fragment);
 
 document.querySelector(`.setup-similar`).classList.remove(`hidden`);
-
-const setupOpenElement = document.querySelector(`.setup-open`);
-const setupCloseElement = document.querySelector(`.setup-close`);
 
 setupOpenElement.addEventListener(`click`, function () {
   openPopup();
@@ -64,26 +137,3 @@ setupCloseElement.addEventListener(`keydown`, function (evt) {
     closePopup();
   }
 });
-
-const openPopup = function () {
-  setupElement.classList.remove(`hidden`);
-
-  document.addEventListener(`keydown`, onPopupEscPress);
-};
-
-const closePopup = function () {
-  setupElement.classList.add(`hidden`);
-
-  document.removeEventListener(`keydown`, onPopupEscPress);
-};
-
-const onPopupEscPress = function (evt) {
-  if (document.activeElement !== setupUserNameElement) {
-    if (evt.key === `Escape`) {
-      evt.preventDefault();
-      setupElement.classList.add(`hidden`);
-    }
-  }
-};
-
-const setupUserNameElement = setupElement.querySelector(`.setup-user-name`);
