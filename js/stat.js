@@ -1,3 +1,5 @@
+'use strict';
+
 (function () {
   const CLOUD_WIDTH = 420;
   const CLOUD_HEIGHT = 270;
